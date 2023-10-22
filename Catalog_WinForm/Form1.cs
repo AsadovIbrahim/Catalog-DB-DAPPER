@@ -27,7 +27,7 @@ namespace Catalog_WinForm
             connection.Close();
             foreach (var product in products)
             {
-                listBox.Items.Add($"{product.Name}-{product.Country}-{product.Cost}");
+                listBox.Items.Add($"{product.Id}-{product.Name}-{product.Country}-{product.Cost}");
             }
 
         }
@@ -83,20 +83,20 @@ namespace Catalog_WinForm
             if (listBox.SelectedIndex>=0)
             {
                 string selectedProduct= listBox.SelectedItem.ToString()!;
-                string productName = selectedProduct!.Split("-")[0].Trim();
+                int productId = Convert.ToInt32(selectedProduct.Split('-')[0].Trim());
 
-                using(productForm form=new productForm())
+                using (productForm form=new productForm())
                 {
                     var result= form.ShowDialog();
 
                     if (result == DialogResult.OK)
                     {
-                        connection.Execute("UPDATE Products SET Name=@Name,Country=@Origin,Cost=@Cost WHERE Name=@OldProductName", new
+                        connection.Execute("UPDATE Products SET Name=@Name,Country=@Origin,Cost=@Cost WHERE Id=@Id", new
                         {
-                            Name= form.ProductNamee,
+                            Name = form.ProductNamee,
                             Origin=form.Origin,
                             Cost=form.ProductCost,
-                            OldProductName=productName
+                            Id=productId
                         });
                         LoadListBoxData();
                     }

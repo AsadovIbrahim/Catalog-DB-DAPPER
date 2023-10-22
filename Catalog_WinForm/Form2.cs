@@ -15,6 +15,7 @@ namespace Catalog_WinForm
 {
     public partial class productForm : Form
     {
+        public int ProductID { get; set; }
         public string ProductNamee
         {
             get { return productNameTxtBox.Text; }
